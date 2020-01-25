@@ -13,6 +13,7 @@
 
 // Structural components
 
+/// Represents nullary tree nodes in a tree of `T` objects.
 template<typename T>
 struct nullary
 {
@@ -34,6 +35,7 @@ struct nullary
   }
 };
 
+/// Represents fixed-arity tree nodes in a tree of `T` objects.
 template<typename T, std::size_t N>
 struct array
 {
@@ -75,6 +77,7 @@ struct array
   std::array<T*, N> m_kids;
 };
 
+/// Represents unary tree nodes in a tree of `T` objects.
 template<typename T>
 struct unary : array<T, 1>
 {
@@ -95,6 +98,7 @@ struct unary : array<T, 1>
   }
 };
 
+/// Represents binary tree nodes in a tree of `T` objects.
 template<typename T>
 struct binary : array<T, 2>
 {
@@ -103,6 +107,7 @@ struct binary : array<T, 2>
   { }
 };
 
+/// Represents ternary tree nodes in a tree of `T` objects.
 template<typename T>
 struct ternary : array<T, 3>
 {
@@ -114,7 +119,7 @@ struct ternary : array<T, 3>
 
 // Kinding
 
-/// A class used to associate a kind with a node.
+/// A class used to associate a kind with a type of node.
 template<auto K>
 struct kind_of
 {
@@ -143,12 +148,14 @@ concept leaf_tree = array_k_tree<T, 0>;
 
 // Testing and casting
 
+/// True if `u` has type `T`.
 template<typename T, typename U>
 bool is(U const* u)
 {
   return u->kind() == T::this_kind;
 }
 
+/// Cast if `u` to type `T`.
 template<typename T, typename U>
 T const* cast(U const* u)
 {
@@ -156,6 +163,7 @@ T const* cast(U const* u)
   return static_cast<T const*>(u);
 }
 
+/// Cast if `u` to type `T`.
 template<typename T, typename U>
 T* cast(U* u)
 {
@@ -163,6 +171,7 @@ T* cast(U* u)
   return static_cast<T*>(u);
 }
 
+/// Cast if `u` to type `T` if possible or return nullptr.
 template<typename T, typename U>
 T const* maybe_cast(U const* u)
 {
@@ -171,6 +180,7 @@ T const* maybe_cast(U const* u)
   return nullptr;
 }
 
+/// Cast if `u` to type `T` if possible or return nullptr.
 template<typename T, typename U>
 T* maybe_cast(U* u)
 {
